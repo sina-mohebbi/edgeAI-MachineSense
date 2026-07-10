@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+pytest-cache-files-*/
+
+# ML data & artifacts (large / generated)
+ml/data/
+ml/artifacts/
+*.wav
+*.keras
+*.tflite
+
+# Generated firmware model + threshold (regenerated from ml/, see firmware/README.md)
+firmware/main/model_data.cc
+firmware/main/model_data.h
+firmware/main/threshold.h
+firmware/managed_components/
+firmware/dependencies.lock
+
+# ESP-IDF build
+firmware/build/
+firmware/sdkconfig
+firmware/sdkconfig.old
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Local demo video source (the committed docs/images/demo.gif is what renders)
+*.mp4
