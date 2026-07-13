@@ -1,0 +1,3 @@
+pyserial>=3.5
+# tensorflow, numpy, scikit-learn come from ../../ml/requirements.txt
+# (replay_client.py imports ml/ modules directly -- install that first).
