@@ -1,0 +1,7 @@
+dependencies:
+  # Espressif's maintained TensorFlow Lite for Microcontrollers port -- pulls in
+  # tensorflow/lite/micro/* headers and the kernel implementations we register
+  # in main/inference.cc.
+  espressif/esp-tflite-micro: "^1.0"
+  idf:
+    version: ">=5.0"

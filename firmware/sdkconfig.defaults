@@ -1,0 +1,13 @@
+# TFLite-Micro's interpreter setup + the tensor arena live on the main task stack;
+# the IDF default (3.5 KB) is too small and will overflow silently. Bump it.
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=16384
+
+# The autoencoder is small (~640-dim dense layers), but leave headroom for the
+# TFLM interpreter's own bookkeeping allocations.
+CONFIG_ESP32_DEFAULT_CPU_FREQ_240=y
+
+# Build at -O2 rather than IDF's default -Og: sane for a release image since
+# inference is the hot path. Measured honestly, it did NOT move the needle here
+# (49.3 -> 49.2 ms/inference), so the cost is not compiler-bound -- see the
+# latency note in ../README.md. Kept anyway as the correct release default.
+CONFIG_COMPILER_OPTIMIZATION_PERF=y
