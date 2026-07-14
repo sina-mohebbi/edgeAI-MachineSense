@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    name: Lint + dataset-free tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      # firmware/tools imports the ml/ modules directly, so one dependency
+      # install covers both test suites. pyserial is not needed: it is imported
+      # lazily inside SerialDevice, which the dataset-free tests never build.
+      - name: Install deps
+        run: pip install -r ml/requirements.txt "ruff==0.16.0"
+      - name: Lint
+        run: ruff check ml firmware/tools
+      - name: ML tests (build model, train 1 step, int8 export)
+        working-directory: ml
+        run: pytest -q
+      - name: Firmware replay-tooling tests
+        working-directory: firmware/tools
+        run: pytest -q
+
+  # Not enabled: building the ESP-IDF firmware in CI. It needs the full IDF
+  # toolchain and the generated model_data/threshold headers, which are
+  # produced from ml/ and deliberately git-ignored. Firmware correctness is
+  # instead verified on real hardware (see firmware/README.md).
